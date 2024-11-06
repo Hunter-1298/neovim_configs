@@ -28,11 +28,11 @@ return {
     local dap = require 'dap'
     local dapui = require 'dapui'
     return {
-      -- Basic debugging keymaps, feel free to change to your liking!
+      -- Baic debugging keymap, feel free to change to your liking!
       { '<leader>dc', dap.continue, desc = 'Debug: Start/Continue' },
-      { '<leader>dsi', dap.step_into, desc = 'Debug: Step Into' },
-      { '<leader>dso', dap.step_over, desc = 'Debug: Step Over' },
-      { '<leader>dst', dap.step_out, desc = 'Debug: Step Out' },
+      { '<leader>di', dap.step_into, desc = 'Debug: Step Into' },
+      { '<leader>dn', dap.step_over, desc = 'Debug: Next - (Step Over)' },
+      { '<leader>do', dap.step_out, desc = 'Debug: Step Out' },
       { '<leader>db', dap.toggle_breakpoint, desc = 'Debug: Toggle Breakpoint' },
       {
         '<leader>dB',
