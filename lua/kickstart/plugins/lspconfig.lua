@@ -16,10 +16,22 @@ return {
   {
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
+    opts = {
+      setup = {
+        rust_analyzer = function()
+          return true
+        end,
+      },
+    },
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
       { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
       'williamboman/mason-lspconfig.nvim',
+      config = function()
+        require('mason-lspconfig').setup_handlers {
+          ['rust_analyzer'] = function() end,
+        }
+      end,
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
       -- Useful status updates for LSP.
@@ -29,6 +41,7 @@ return {
       -- Allows extra capabilities provided by nvim-cmp
       'hrsh7th/cmp-nvim-lsp',
     },
+
     config = function()
       -- Brief aside: **What is LSP?**
       --
@@ -182,7 +195,9 @@ return {
         -- clangd = {},
         -- gopls = {},
         pyright = {},
-        rust_analyzer = {},
+        -- Not setting up rust analyzer, letting rustaceanvim set it up for us
+        -- install with local toolchain using <rustup component add rust-analyzer>
+        -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
