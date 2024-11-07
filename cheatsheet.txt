@@ -5,6 +5,8 @@ A - append text to line
 a - insert mode after cursor
 dw - delete a word
 ce - change word to end
+ct<char> - change until word
+dt<char> - delete until word
 :! - execute command outside of vim
 o - open line below cursor in insert mode
 <space> sh - search in the help menu
