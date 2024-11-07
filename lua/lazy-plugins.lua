@@ -37,6 +37,7 @@ require('lazy').setup({
 
   require 'kickstart/plugins/tokyonight',
   require 'kickstart/plugins/rosepine',
+  require 'kickstart/plugins/kanagawa-theme',
 
   require 'kickstart/plugins/todo-comments',
 
