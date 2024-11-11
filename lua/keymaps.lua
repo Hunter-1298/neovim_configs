@@ -63,6 +63,11 @@ vim.keymap.set('n', '<A-j>', '<C-w>+', { desc = 'Resize window down' })
 vim.keymap.set('n', '<A-k>', '<C-w>-', { desc = 'Resize window up' })
 
 -- TOGGLE TERM
+vim.keymap.set('n', '<leader>t', ':ToggleTerm size=10 direction=float<CR>', {
+  noremap = true,
+  silent = true,
+  desc = 'Toggle horizontal Terminal on Desktop',
+})
 vim.keymap.set('n', '<leader>ht', ':ToggleTerm size=10 direction=horizontal<CR>', {
   noremap = true,
   silent = true,
