@@ -1,5 +1,7 @@
 -- [[ Basic meymaps ]]
 --  mee `:help vim.keymap.set()`
+-- Change workign director to  current file dir
+vim.api.nvim_set_keymap('n', '<leader>cd', ':cd %:p:h<CR>', { noremap = true, silent = true, desc = 'Change dir to curr file dir' })
 
 -- Setting vsp buffer keymap
 vim.keymap.set('n', '<leader>vsp', function()
