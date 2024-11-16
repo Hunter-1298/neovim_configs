@@ -15,7 +15,15 @@ return {
       -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
-      require('mini.animate').setup()
+      -- Chaning these to be false so we dont get a black screen lag on transparent background
+      require('mini.animate').setup {
+        open = {
+          enable = false,
+        },
+        close = {
+          enable = false,
+        },
+      }
       -- require('mini.starter').setup()
       require('mini.cursorword').setup()
       -- Simple and easy statusline.
