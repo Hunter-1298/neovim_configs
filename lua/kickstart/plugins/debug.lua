@@ -13,14 +13,11 @@ return {
   dependencies = {
     -- Creates a beautiful debugger UI
     'rcarriga/nvim-dap-ui',
-
     -- Required dependency for nvim-dap-ui
     'nvim-neotest/nvim-nio',
-
     -- Installs the debug adapters for you
     'williamboman/mason.nvim',
     'jay-babu/mason-nvim-dap.nvim',
-
     -- Add your own debuggers here
     'leoluz/nvim-dap-go',
   },
@@ -35,6 +32,9 @@ return {
       { '<leader>dn', dap.step_over, desc = 'Debug: Next - (Step Over)' },
       { '<leader>do', dap.step_out, desc = 'Debug: Step Out' },
       { '<leader>db', dap.toggle_breakpoint, desc = 'Debug: Toggle Breakpoint' },
+      { '<leader>dt', dapui.toggle, desc = 'Debug: Toggle' },
+      { '<leader>dl', dapui.toggle, desc = 'Debug: Close' },
+      { '<leader>dx', dap.repl.open, desc = 'Debug: Close' },
       {
         '<leader>dB',
         function()
@@ -44,30 +44,27 @@ return {
       },
       -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
       { '<leader>dr', dapui.toggle, desc = 'Debug: See last session result.' },
+      {
+        '<leader>xp',
+        function()
+          -- Prompt the user for a command to execute in the REPL
+          local command = vim.fn.input 'Enter REPL command: '
+          if command and command ~= '' then
+            dap.repl.execute(command)
+            print('Executed: ' .. command)
+          else
+            print 'No command entered'
+          end
+        end,
+        desc = 'Debug: Execute custom REPL command',
+      },
+
       unpack(keys),
     }
   end,
   config = function()
     local dap = require 'dap'
     local dapui = require 'dapui'
-
-    require('mason-nvim-dap').setup {
-      -- Makes a best effort to setup the various debuggers with
-      -- reasonable debug configurations
-      automatic_installation = true,
-
-      -- You can provide additional configuration to the handlers,
-      -- see mason-nvim-dap README for more information
-      handlers = {},
-
-      -- You'll need to check that you have the required things installed
-      -- online, please don't ask me how to install them :)
-      ensure_installed = {
-        -- Update this to ensure that you have the debuggers for the langs you want
-        'delve',
-      },
-    }
-
     -- Dap UI setup
     -- For more information, see |:help nvim-dap-ui|
     dapui.setup {
@@ -102,8 +99,39 @@ return {
     --   vim.fn.sign_define(tp, { text = icon, texthl = hl, numhl = hl })
     -- end
 
-    dap.listeners.after.event_initialized['dapui_config'] = dapui.open
-    dap.listeners.before.event_terminated['dapui_config'] = dapui.close
-    dap.listeners.before.event_exited['dapui_config'] = dapui.close
+    -- Open DAP UI automatically when debugging starts
+    dap.listeners.after.event_initialized['dapui_config'] = function()
+      dapui.open()
+    end
+    -- Close DAP UI when debugging stops
+    dap.listeners.before.event_terminated['dapui_config'] = function()
+      dapui.close()
+    end
+    dap.listeners.before.event_exited['dapui_config'] = function()
+      dapui.close()
+    end
+
+    local function map_dap_keys()
+      -- Dynamically map keys for debugging
+      vim.api.nvim_buf_set_keymap(0, 'n', 'n', "<Cmd>lua require('dap').step_over()<CR>", { noremap = true, silent = true, desc = 'Debug: Next - (Step Over)' })
+    end
+
+    -- Hook into DAP events to dynamically map/unmap keys
+    dap.listeners.after.event_initialized['dap_keys'] = function()
+      map_dap_keys() -- Map keys when debugging starts
+    end
+    dap.listeners.before.event_terminated['dap_keys'] = function()
+      vim.api.nvim_buf_del_keymap(0, 'n') -- Remove mapping when debugging stops
+    end
+    dap.listeners.before.event_exited['dap_keys'] = function()
+      vim.api.nvim_buf_del_keymap(0, 'n') -- Remove mapping when debugging exits
+    end
+    -- nvim-dap-go setup
+    require('dap-go').setup {
+      delve = {
+        path = '/home/hshayde/go/bin/dlv',
+      },
+      buildFlags = "-gcflags 'all=-N -1'",
+    }
   end,
 }

@@ -3,6 +3,10 @@
 -- Change workign director to  current file dir
 vim.api.nvim_set_keymap('n', '<leader>cd', ':cd %:p:h<CR>', { noremap = true, silent = true, desc = 'Change dir to curr file dir' })
 
+-- Mapping toggle comments
+-- vim.keymap.set('n', '<leader>ct', '<cmd>norm gcc<CR>', { noremap = false, silent = true, desc = 'Comment Toggle' })
+-- vim.keymap.set('v', '<leader>ct', '<cmd>norm gc<CR>', { noremap = false, silent = true, desc = 'Comment Toggle' })
+
 -- Setting vsp buffer keymap
 vim.keymap.set('n', '<leader>vsp', function()
   local buffer_number = vim.fn.input 'Buffer number: '
