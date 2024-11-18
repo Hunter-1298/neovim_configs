@@ -194,8 +194,15 @@ return {
       local util = require 'lspconfig.util'
       local servers = {
         -- clangd = {},
-        gopls = {},
-        pyright = {},
+        basedpyright = {
+          settings = {
+            basedpyright = {
+              analysis = {
+                typeCheckingMode = 'basic',
+              },
+            },
+          },
+        },
         -- Not setting up rust analyzer, letting rustaceanvim set it up for us
         -- install with local toolchain using <rustup component add rust-analyzer>
         -- rust_analyzer = {},
