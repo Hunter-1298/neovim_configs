@@ -3,6 +3,7 @@
 -- Change workign director to  current file dir
 vim.api.nvim_set_keymap('n', '<leader>cd', ':cd %:p:h<CR>', { noremap = true, silent = true, desc = 'Change dir to curr file dir' })
 
+-- Set buffer next and buufer previous keymaps
 -- Mapping toggle comments
 -- vim.keymap.set('n', '<leader>ct', '<cmd>norm gcc<CR>', { noremap = false, silent = true, desc = 'Comment Toggle' })
 -- vim.keymap.set('v', '<leader>ct', '<cmd>norm gc<CR>', { noremap = false, silent = true, desc = 'Comment Toggle' })
@@ -44,7 +45,9 @@ vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
 vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
 vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
--- Keybinds to make split navigation easier.
+vim.keymap.set('n', '<Tab>', ':bn<CR>', { noremap = true, silent = true, desc = 'Buffer Next' })
+vim.keymap.set('n', '<S-Tab>', ':bp<CR>', { noremap = true, silent = true, desc = 'Buffer Prev' })
+-- Keybinds to make split navigatiob easier.
 --  Use CTRL+<hjkl> to switch between windows
 --w><C-h>
 --  See `:help wincmd` for a list of all window commands
